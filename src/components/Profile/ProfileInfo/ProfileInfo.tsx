@@ -3,7 +3,6 @@ import s from './ProfileInfo.module.css'
 
 type ProfileInfoPropsType ={
 
-
 }
 
 

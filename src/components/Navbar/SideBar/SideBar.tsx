@@ -1,9 +1,9 @@
 import React from 'react';
-import s from './Navbar.module.css';
+import s from './SideBar.module.css';
 import {NavLink} from "react-router-dom";
 
 
-const Navbar = () => {
+const SideBar = () => {
     return (
         <nav className={s.nav}>
             <div className={s.item}>
@@ -21,7 +21,7 @@ const Navbar = () => {
             <div className={s.item}>
                 <NavLink to= "/settings" activeClassName={s.activeLink}>Settings</NavLink>
             </div>
-        </nav>
+    </nav>
     )}
 
-export default Navbar;
+export default SideBar;
