@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 export type StatePropsType = {
     profilePage: ProfilePagePropsType
     dialogsPage:DialogsPagePropsType
@@ -19,7 +21,7 @@ export type SideBarPropsType = {
 
 export type FriendPropsType = {
     id: number
-    name: string
+    friendName: string
     avatar: string
 }
 
@@ -44,9 +46,9 @@ export let state: StatePropsType = {
 
     sidebar: {
         friends: [
-            {id: 1, name: 'Olya', avatar:''},
-            {id: 2, name: 'Alesya', avatar:''},
-            {id: 3, name: 'Lena', avatar:''},
+            {id: 1, friendName: 'Olya', avatar:''},
+            {id: 2, friendName: 'Alesya', avatar:''},
+            {id: 3, friendName: 'Lena', avatar:''},
         ]
     },
 
@@ -74,3 +76,16 @@ export let state: StatePropsType = {
             {id: 4, message: 'Ololo'},
         ],
 }}
+
+
+
+export const addPost = (postMessage: string) => {
+    const newPost: PostPropsType = {
+        id: new Date().getTime(),
+        message: postMessage,
+        likesCount: 0
+    };
+    state.profilePage.posts.push(newPost)
+
+    rerenderEntireTree(state)
+}
