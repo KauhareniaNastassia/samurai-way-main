@@ -1,7 +1,6 @@
 import React from 'react';
 import s from './Post.module.css';
-import {state} from "../../../../Redux/state";
-import {message} from "antd";
+
 
 export type PostPropsType ={
     message: string

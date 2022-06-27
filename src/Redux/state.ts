@@ -13,6 +13,7 @@ export type DialogsPagePropsType = {
 
 export type ProfilePagePropsType = {
     posts: Array<PostPropsType>
+    newPostText: string
 }
 
 export type SideBarPropsType = {
@@ -42,8 +43,8 @@ export type MessagePropsType = {
 }
 
 
-export let state: StatePropsType = {
 
+export let state: StatePropsType = {
     sidebar: {
         friends: [
             {id: 1, friendName: 'Olya', avatar:''},
@@ -52,14 +53,14 @@ export let state: StatePropsType = {
         ]
     },
 
-
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you?', likesCount: 10 },
             {id: 2, message: 'It\'s my first post',  likesCount: 15},
             {id: 3, message: 'Azaza', likesCount: 10 },
             {id: 4, message: 'Ururu',  likesCount: 15},
-        ]
+        ],
+        newPostText: ''
     },
 
     dialogsPage:{
@@ -79,13 +80,19 @@ export let state: StatePropsType = {
 
 
 
-export const addPost = (postMessage: string) => {
-    const newPost: PostPropsType = {
+export let addPost = (newPostText: string) => {
+    let newPost: PostPropsType = {
         id: new Date().getTime(),
-        message: postMessage,
+        message: state.profilePage.newPostText, //newPostText
         likesCount: 0
     };
     state.profilePage.posts.push(newPost)
+    state.profilePage.newPostText=''
 
+    rerenderEntireTree(state)
+}
+
+export let updateNewPostText = (newPost: string) => {
+       state.profilePage.newPostText = newPost //change newText to newPost
     rerenderEntireTree(state)
 }
