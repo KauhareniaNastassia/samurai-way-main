@@ -2,27 +2,30 @@ import React, {ChangeEvent, ChangeEventHandler} from 'react';
 import s from './MyPosts.module.css';
 import Post, {PostPropsType} from "./Post/Post";
 import post from "./Post/Post";
-import {addPost, state, updateNewPostText} from "../../../Redux/state";
+import {ActionsType, store} from "../../../Redux/state";
+import {message} from "antd";
 
 export type MyPostsPropsType ={
     posts: Array<PostPropsType>
-    addPost: (postMessage: string) => void
-    updateNewPostText: (newPostText: string) => void
+    /*addPost: (postMessage: string) => void
+    updateNewPostText: (newPostText: string) => void*/
+    dispatch: (action: ActionsType) => void
+
+
 
 }
 
 
 const MyPosts = (props: MyPostsPropsType) => {
 
-    let postsElements = state.profilePage.posts.map( p => <Post message = {p.message} likesCount={p.likesCount} />)
+    let postsElements = store._state.profilePage.posts.map( p => <Post message = {p.message} likesCount={p.likesCount} />)
 
     const addPost = () => {
-        props.addPost(state.profilePage.newPostText);
-        props.updateNewPostText('')
+        props.dispatch ( { type: 'ADD-POST', newPostText: store._state.profilePage.newPostText})/*(store._state.profilePage.newPostText)*/;
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        updateNewPostText (e.currentTarget.value)
+        props.dispatch ({ type: 'UPDATE-NEW-POST-TEXT', newPost: e.currentTarget.value }/*, e.currentTarget.value*/)
     }
 
 
@@ -34,7 +37,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <div>
                     <textarea
                         onChange={onPostChange}
-                        value={state.profilePage.newPostText}/>
+                        value={store._state.profilePage.newPostText}/>
                     <button onClick={addPost}>Add Post</button>
             </div>
             <div className={s.posts}>
