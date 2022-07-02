@@ -8,8 +8,8 @@ import {BrowserRouter, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {addPost, state, StatePropsType, updateNewPostText,} from "./Redux/state";
-import {message} from "antd";
+import {state, StatePropsType, updateNewPostText,} from "./Redux/state";
+
 
 
 export type AppPropsType = {
@@ -32,11 +32,6 @@ const App = (props: AppPropsType) => {
                         profilePage={props.state.profilePage}//new
                         addPost={props.addPost}
                         updateNewPostText={props.updateNewPostText} //add props
-
-
-                       /* posts={state.profilePage.posts}
-                        message={state.profilePage.newPostText}//new typ
-                        onPostChange={props.onPostChange}*/
 
                     /> }/>
 
