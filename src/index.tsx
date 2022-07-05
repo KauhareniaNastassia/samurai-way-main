@@ -1,5 +1,5 @@
 import './index.css';
-import {store, StorePropsType} from "./Redux/state";
+import {store} from "./Redux/state";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -11,6 +11,7 @@ let rerenderEntireTree = (state: StatePropsType) => {
     ReactDOM.render(
         <App
             state={store.getState()}
+            store={store}
             dispatch={store.dispatch.bind(store)}
         />,
         document.getElementById('root')

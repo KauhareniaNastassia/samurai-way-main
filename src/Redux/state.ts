@@ -1,23 +1,23 @@
+
+import {addPostActionCreator, profilePageReducer, updateNewPostActionCreator} from "./ProfilePageReducer";
+import {dialogsPageReducer, sendMessageActionCreator, updateNewMessageBodyActionCreator} from "./DialogsPageReducer";
+import {sidebarPageReducer} from "./SidebarPageReducer";
+
 export type StorePropsType = {
     _state: StatePropsType
-    /* updateNewPostText: (newPost: string) => void
-     addPost: (newPostText: string) => void*/
     _rerenderEntireTree: (_state: StatePropsType) => void
     subscribe: (observer: (_state: StatePropsType) => void) => void
     getState: () => StatePropsType
     dispatch: (action: ActionsType) => void
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST',
-    newPostText: string
-}
-type UpdateNewPostTextType = {
-    type: 'UPDATE-NEW-POST-TEXT',
-    newPost: string
-}
+export type ActionsType =
+    ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof updateNewPostActionCreator>
+    | ReturnType<typeof updateNewMessageBodyActionCreator>
+    | ReturnType<typeof sendMessageActionCreator>
 
-export type ActionsType = AddPostActionType | UpdateNewPostTextType
+
 
 
 export let store: StorePropsType = {
@@ -53,6 +53,7 @@ export let store: StorePropsType = {
                 {id: 3, message: 'Bye'},
                 {id: 4, message: 'Ololo'},
             ],
+            newMessageBody: ''
         }
     },
     _rerenderEntireTree(_state: StatePropsType) {
@@ -82,26 +83,46 @@ export let store: StorePropsType = {
         this._rerenderEntireTree(this._state)
     },*/
 
-    dispatch(action) {   //{ type: 'ADD-POST'}
-        if (action.type === 'ADD-POST') {
-            let newPost: PostPropsType = {
-                id: new Date().getTime(),
-                message: action.newPostText, //тут погас профиль пэйдж
-                likesCount: 0
-            };
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._rerenderEntireTree(this._state)
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newPost //change newText to newPost
-            this._rerenderEntireTree(this._state)
-        }
+    dispatch(action) {
+
+        this._state.profilePage = profilePageReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsPageReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sidebarPageReducer(this._state.sidebar, action)
+
+        this._rerenderEntireTree(this._state)
     }
+
 }
 
 
+/*export const addPostActionCreator = (newPostText: string) => {
+    return {
+        type: 'ADD_POST',
+        newPostText: newPostText
+    } as const
+}
+export const updateNewPostActionCreator = (newPost: string) => {
+    return {
+        type: 'UPDATE_NEW_POST_tEXT',
+        newPost: newPost
+    } as const
+}
+export const updateNewMessageBodyActionCreator = (body: string) => {
+    return {
+        type: 'ADD_POST',
+        body: body
+    } as const
+}
+export const sendMessageActionCreator = () => {
+    return {
+        type: 'SEND_MESSAGE',
+    } as const
+}*/
+
+
 /*let rerenderEntireTree = (state: StatePropsType) => {
-    console.log("State changed")
+    console.log("State chan
+    ged")
 }*/
 
 export type StatePropsType = {
@@ -113,6 +134,7 @@ export type StatePropsType = {
 export type DialogsPagePropsType = {
     dialogs: Array<DialogPropsType>
     messages: Array<MessagePropsType>
+    newMessageBody: string
 }
 
 export type ProfilePagePropsType = {
