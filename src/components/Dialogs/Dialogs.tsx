@@ -1,39 +1,39 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {
-    DialogPropsType,
+    DialogPropsType, DialogsPagePropsType,
     MessagePropsType,
     store, StorePropsType
-} from "../../Redux/state";
+} from "../../Redux/store";
 
 import {sendMessageActionCreator, updateNewMessageBodyActionCreator } from '../../Redux/DialogsPageReducer'
 
 export type DialogsPropsType = {
     dialogs: Array<DialogPropsType>
     messages: Array<MessagePropsType>
-    store: StorePropsType
-
+    updateNewMessageBody: (body: string) => void
+    sendMessage: () => void
+    newMessageBody: string
 }
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    let state = props.store.getState().dialogsPage
+    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
+    let messagesElements = props.messages.map (m => <Message message = {m.message} />)
 
-
-
-    let dialogsElements = store._state.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
-    let messagesElements = store._state.dialogsPage.messages.map (m => <Message message = {m.message} />)
-    let newMessageBody = store._state.dialogsPage.newMessageBody
 
     let onSendMessageClick = () => {
-        props.store.dispatch(sendMessageActionCreator())
+        props.sendMessage()
+       /* props.store.dispatch(sendMessageActionCreator())*/
     }
 
-    let onNewMessageChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+    let onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        console.log('onChange')
         let body = e.target.value
-        props.store.dispatch(updateNewMessageBodyActionCreator(body))
+        props.updateNewMessageBody(body)
+       /* props.store.dispatch(updateNewMessageBodyActionCreator(body))*/
 
     }
 
@@ -46,9 +46,10 @@ const Dialogs = (props: DialogsPropsType) => {
                 <div>{messagesElements}</div>
                 <div>
                     <div> <textarea
-                        value={newMessageBody}
-                        placeholder={'Enter your message'}>
+                        value={props.newMessageBody}
+                        placeholder={'Enter your message'}
                         onChange={onNewMessageChange}
+                    >
                     </textarea> </div>
                     <div> <button onClick={onSendMessageClick}> Send </button> </div>
                 </div>

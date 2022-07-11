@@ -2,13 +2,14 @@ import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import Post, {PostPropsType} from "./Post/Post";
 import post from "./Post/Post";
-import {ActionsType, ProfilePagePropsType, store} from "../../../Redux/state";
+import {ActionsType, ProfilePagePropsType, store} from "../../../Redux/store";
 import {addPostActionCreator, updateNewPostActionCreator} from "../../../Redux/ProfilePageReducer";
 
 export type MyPostsPropsType ={
     posts: Array<PostPropsType>
-    dispatch: (action: ActionsType) => void
-    state: ProfilePagePropsType
+    updateNewPost: (e: ChangeEvent<HTMLTextAreaElement>) => void
+    addPost: () => void
+    newPostText: string
 }
 
 
@@ -17,12 +18,20 @@ const MyPosts = (props: MyPostsPropsType) => {
     let postsElements = props.posts.map( p => <Post message = {p.message} likesCount={p.likesCount} />)
 
 
-    const addPost = () => {
-        props.dispatch ( addPostActionCreator(props.state.newPostText))/*(store._state.profilePage.newPostText)*/;
+    const onAddPost = () => {
+        props.addPost()
+
+        /*props.dispatch ( addPostActionCreator(props.state.newPostText))*/ //закоментила для конт компоненты
+        /*(store._state.profilePage.newPostText)*/;
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch (updateNewPostActionCreator(e.currentTarget.value)/*, e.currentTarget.value*/)
+        props.updateNewPost(e)
+       /* let text = newPostText.current.value;
+        props.updateNewPost(newPostText);
+
+        props.dispatch (updateNewPostActionCreator(e.currentTarget.value)*/
+
     }
 
 
@@ -34,8 +43,8 @@ const MyPosts = (props: MyPostsPropsType) => {
             <div>
                     <textarea
                         onChange={onPostChange}
-                        value={store._state.profilePage.newPostText}/>
-                    <button onClick={addPost}>Add Post</button>
+                        value={props.newPostText}/>
+                    <button onClick={onAddPost}>Add Post</button>
             </div>
             <div className={s.posts}>
                 { postsElements }

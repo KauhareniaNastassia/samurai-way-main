@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './Friend.module.css';
 import {NavLink} from "react-router-dom";
-import {state} from "../../../../Redux/state";
+import {store} from "../../../../Redux/store";
 
 export type FriendPropsType ={
     friendName: string
