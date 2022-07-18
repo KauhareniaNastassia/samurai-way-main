@@ -1,26 +1,30 @@
 import React from 'react';
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {ActionsType, ProfilePagePropsType, StorePropsType} from "../../Redux/store";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
-
-export type ProfilePropsType = {
-    profilePage: ProfilePagePropsType
-    dispatch: (action: ActionsType) => void
-}
+import {ProfilePagePropsType} from "../../Redux/store";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 
-const Profile = (props: ProfilePropsType) => {
+/*export type ProfilePropsType = {
+
+   /!* profilePage: ProfilePagePropsType
+    dispatch: (action: ActionsType) => void*!/
+}*/
+
+
+const Profile = () => {
 
 
     return <div>
         <ProfileInfo/>
         <MyPostsContainer
-            posts={props.profilePage.posts}
+            /*posts={props.profilePage.posts}
             newPostText={props.profilePage.newPostText}
-            dispatch={props.dispatch}
+            dispatch={props.dispatch}*/
         />
     </div>
 }
 
 export default Profile;
+
+
+//что мы сюда передаем???

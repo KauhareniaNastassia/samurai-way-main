@@ -1,10 +1,16 @@
-import {ActionsType, DialogsPagePropsType} from "./store";
+import {ActionsType, DialogPropsType, MessagePropsType} from "./store";
 
 
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
 const SEND_MESSAGE = 'SEND_MESSAGE'
 
-type initialStateDialogsPageType = DialogsPagePropsType
+export type DialogsPagePropsType = {
+    dialogs: Array<DialogPropsType>
+    messages: Array<MessagePropsType>
+    newMessageBody: string
+}
+
+export type initialStateDialogsPageType = DialogsPagePropsType
 
 
 let initialState: initialStateDialogsPageType = {
@@ -23,17 +29,22 @@ let initialState: initialStateDialogsPageType = {
     newMessageBody: ''
 }
 
-export const dialogsPageReducer = (state: DialogsPagePropsType = initialState, action: ActionsType) => {
+export const dialogsPageReducer = (state: initialStateDialogsPageType = initialState, action: ActionsType) => {
 
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
-            console.log('update message body')
-            return {...state, newMessageBody: action.newMessageBody}
-        case SEND_MESSAGE:
+            return {
+                ...state,
+                newMessageBody: action.payload.newMessageBody
+            }
+        case SEND_MESSAGE: {
             let body = state.newMessageBody
-            state.newMessageBody = ''
-            state.messages.push({id: 6, message: body})
-            return state
+            return {
+                ...state,
+                newMessageBody: '',
+                messages: [...state.messages, {id: 6, message: body}]
+            }
+        }
         default:
             return state
         }
@@ -41,10 +52,11 @@ export const dialogsPageReducer = (state: DialogsPagePropsType = initialState, a
 
 
 export const updateNewMessageBodyActionCreator = (body: string) => {
-    console.log('update message', body)
     return {
         type: 'UPDATE_NEW_MESSAGE_BODY',
-        newMessageBody: body
+        payload: {
+            newMessageBody: body
+        }
     } as const
 }
 export const sendMessageActionCreator = () => {

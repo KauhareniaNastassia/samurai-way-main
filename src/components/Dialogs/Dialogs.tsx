@@ -2,26 +2,23 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {
-    DialogPropsType, DialogsPagePropsType,
-    MessagePropsType,
-    store, StorePropsType
-} from "../../Redux/store";
+import {DialogsPropsType} from "./DialogsContainer";
 
-import {sendMessageActionCreator, updateNewMessageBodyActionCreator } from '../../Redux/DialogsPageReducer'
-
-export type DialogsPropsType = {
-    dialogs: Array<DialogPropsType>
-    messages: Array<MessagePropsType>
+/*export type DialogsPropsType = {
+    dialogsPage: DialogsPagePropsType
     updateNewMessageBody: (body: string) => void
     sendMessage: () => void
-    newMessageBody: string
-}
+    /!*dialogs: Array<DialogPropsType>
+    messages: Array<MessagePropsType>
+    newMessageBody: string*!/
+}*/
+
+
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
-    let messagesElements = props.messages.map (m => <Message message = {m.message} />)
+    let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id} />)
+    let messagesElements = props.dialogsPage.messages.map (m => <Message message = {m.message} key={m.id} />)
 
 
     let onSendMessageClick = () => {
@@ -46,7 +43,7 @@ const Dialogs = (props: DialogsPropsType) => {
                 <div>{messagesElements}</div>
                 <div>
                     <div> <textarea
-                        value={props.newMessageBody}
+                        value={props.dialogsPage.newMessageBody}
                         placeholder={'Enter your message'}
                         onChange={onNewMessageChange}
                     >

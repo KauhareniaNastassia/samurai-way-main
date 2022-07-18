@@ -2,6 +2,7 @@
 import {addPostActionCreator, profilePageReducer, updateNewPostActionCreator} from "./ProfilePageReducer";
 import {dialogsPageReducer, sendMessageActionCreator, updateNewMessageBodyActionCreator} from "./DialogsPageReducer";
 import {sidebarPageReducer} from "./SidebarPageReducer";
+import {followActionCreator, unfollowActionCreator} from "./UsersReducer";
 
 export type StorePropsType = {
     _state: StatePropsType
@@ -16,6 +17,8 @@ export type ActionsType =
     | ReturnType<typeof updateNewPostActionCreator>
     | ReturnType<typeof updateNewMessageBodyActionCreator>
     | ReturnType<typeof sendMessageActionCreator>
+    | ReturnType<typeof followActionCreator>
+    | ReturnType<typeof unfollowActionCreator>
 
 
 
